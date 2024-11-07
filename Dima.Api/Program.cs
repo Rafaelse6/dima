@@ -6,27 +6,42 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.MapPost("/v1/transactions", (Request request, Handler handler) =>
+    handler.Handle(request))
+    .WithName("Transactions: Create")
+    .WithSummary("Cria uma nova transação")
+    .Produces<Response>();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-});
 
 app.Run();
 
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+//Request
+public class Request
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public string Title { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public int Type { get; set; }
+    public decimal Amount { get; set; }
+    public long CategoryId { get; set; }
+    public string UserId { get; set; } = string.Empty;
+}
+
+// Response
+public class Response
+{
+    public long Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+}
+
+//Handler
+public class Handler
+{
+    public Response Handle(Request request)
+    {
+        return new Response
+        {
+            Id = 4,
+            Title = request.Title,
+        };
+    }
 }

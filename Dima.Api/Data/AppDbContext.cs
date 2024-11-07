@@ -1,5 +1,6 @@
 ﻿using Dima.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Dima.Api.Data
 {
@@ -10,7 +11,7 @@ namespace Dima.Api.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration();
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }

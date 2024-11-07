@@ -5,6 +5,7 @@ builder.Services.AddSwaggerGen(x =>
 {
     x.CustomSchemaIds(n => n.FullName);
 });
+builder.Services.AddTransient<Handler>();
 
 // Add services to the container.
 

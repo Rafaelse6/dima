@@ -9,7 +9,9 @@ namespace Dima.Api.Data.Mappings
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.ToTable("Category");
+           
             builder.HasKey(x => x.Id);
+            
             builder.Property(x => x.Title)
                 .IsRequired(true)
                 .HasColumnType("NVARCHAR")

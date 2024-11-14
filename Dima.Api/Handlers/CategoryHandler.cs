@@ -3,6 +3,7 @@ using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Categories;
 using Dima.Core.Responses;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dima.Api.Handlers
 {
@@ -18,7 +19,7 @@ namespace Dima.Api.Handlers
             throw new NotImplementedException();
         }
 
-        public async Task<Response<Category>> CreateAsync(CreateCategoryRequest request)
+        public async Task<Response<Category?>> CreateAsync(CreateCategoryRequest request)
         {
             try
             {
@@ -32,20 +33,39 @@ namespace Dima.Api.Handlers
                 await context.Categories.AddAsync(category);
                 await context.SaveChangesAsync();
 
-                return new Response<Category>(category);
+                return new Response<Category?>(category, 201, "Categoria criada com sucesso");
             }
-            catch (Exception ex) {
-                Console.WriteLine(ex);
-                throw new Exception("Falaha ao criar categoria");
+            catch
+            {
+                return new Response<Category?>(null, 500, "Não foi possível criar a categoria");
             }
         }
 
-        public Task<Response<Category>> UpdateAsync(UpdateCategoryRequest request)
+        public async Task<Response<Category?>> UpdateAsync(UpdateCategoryRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var category = await context
+               .Categories
+               .FirstOrDefaultAsync(x => x.Id == request.Id & x.UserId == request.UserId);
+
+                if (category is null)
+                    return new Response<Category?>(null, 404, "Categoria não encontrada");
+                category.Title = request.Title;
+                category.Description = request.Description;
+
+                context.Categories.Update(category);
+                await context.SaveChangesAsync();
+
+                return new Response<Category?>(category);
+            }
+            catch
+            {
+                return new Response<Category?>(null, 500, "[FP079] Não foi possível atualizar a categoria");
+            }
         }
 
-        public Task<Response<Category>> DeleteAsync(DeleteCategoryRequest request)
+        public Task<Response<Category?>> DeleteAsync(DeleteCategoryRequest request)
         {
             throw new NotImplementedException();
         }

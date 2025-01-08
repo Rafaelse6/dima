@@ -14,7 +14,7 @@ namespace Dima.Api.Handlers
             throw new NotImplementedException();
         }
 
-        public Task GetByIdAsync(GetCategoryByIdRequest request)
+        public Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
         {
             throw new NotImplementedException();
         }
@@ -65,9 +65,25 @@ namespace Dima.Api.Handlers
             }
         }
 
-        public Task<Response<Category?>> DeleteAsync(DeleteCategoryRequest request)
+        public async Task<Response<Category?>> DeleteAsync(DeleteCategoryRequest request)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var category = await context
+               .Categories
+               .FirstOrDefaultAsync(x => x.Id == request.Id & x.UserId == request.UserId);
+
+                if (category is null)
+                    return new Response<Category?>(null, 404, "Categoria não encontrada");
+
+                context.Categories.Remove(category);
+                await context.SaveChangesAsync();
+                return new Response<Category?>(category, message: "Categoria excluida com sucesso");
+            }
+            catch
+            {
+                return new Response<Category?>(null, 500, "[FP079] Não foi possível deletar a categoria");
+            }
         }
     }
 }

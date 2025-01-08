@@ -37,7 +37,24 @@ app.MapPost("/v1/categories", (CreateCategoryRequest request, ICategoryHandler h
     handler.CreateAsync(request))
     .WithName("Categories: Create")
     .WithSummary("Cria uma nova categoria")
-    .Produces<Response<Category>>();
+    .Produces<Response<Category?>>();
 
+app.MapPut("/v1/categories/{id}", (long id, UpdateCategoryRequest request, ICategoryHandler handler) =>
+    {
+        request.Id = id;
+        handler.UpdateAsync(request);
+    })
+        .WithName("Categories: Create")
+        .WithSummary("Atualiza uma nova categoria")
+        .Produces<Response<Category?>>();
+
+app.MapDelete("/v1/categories/{id}", (long id, DeleteCategoryRequest request, ICategoryHandler handler) =>
+    {
+        request.Id = id;
+        handler.DeleteAsync(request);
+    })
+        .WithName("Categories: Create")
+        .WithSummary("Deleta uma nova categoria")
+        .Produces<Response<Category>>();
 
 app.Run();

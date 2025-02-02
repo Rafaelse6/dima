@@ -9,9 +9,34 @@ namespace Dima.Api.Handlers
 {
     public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
-        public Task<Response<List<Category>>> GetAllAsync(GetAllCategoriesRequest request)
+        public async Task<PagedResponse<List<Category>>> GetAllAsync(GetAllCategoriesRequest request)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                var query = context
+                .Categories
+                .AsNoTracking()
+                .Where(x => x.UserId == request.UserId).OrderBy(x => x.Title);
+
+                var categories = await
+                    query
+                    .Skip((request.PageNumber - 1 ) * request.PageSize)
+                    .Take(request.PageSize) //25
+                    .ToListAsync();
+
+                var count = await query.CountAsync();
+
+                return new PagedResponse<List<Category>>(
+                    categories,
+                    count,
+                    request.PageNumber,
+                    request.PageSize);
+            }
+            catch
+            {
+                return new PagedResponse<List<Category>>(null, 500, "Não foi possível consultar as categorias ");
+            }
         }
 
         public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request)
@@ -30,7 +55,7 @@ namespace Dima.Api.Handlers
             {
                 return new Response<Category?>(null, 500, "Não foi possível recuperar a categoria");
             }
-           
+
         }
 
         public async Task<Response<Category?>> CreateAsync(CreateCategoryRequest request)

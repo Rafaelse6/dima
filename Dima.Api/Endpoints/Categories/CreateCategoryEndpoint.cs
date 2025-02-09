@@ -20,12 +20,13 @@ namespace Dima.Api.Endpoints.Categories
             ICategoryHandler handler,
             CreateCategoryRequest request)
         {
+            request.UserId = "teste@balta.io";
             var result = await handler.CreateAsync(request);
             if (result.IsSuccess)
             {
-                return TypedResults.Created($"/{result.Data?.Id}", result.Data);
+                return TypedResults.Created($"/{result.Data?.Id}", result);
             }
-            return Results.BadRequest(result.Data);
+            return Results.BadRequest(result);
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using Dima.Api.Common.Api;
+using Dima.Api.Endpoints.Categories;
 using Dima.Core.Models;
 
-namespace Dima.Api.Endpoints.Categories
+namespace Dima.Api.Endpoints
 {
     public static class Endpoint
     {
@@ -12,7 +13,11 @@ namespace Dima.Api.Endpoints.Categories
             endpoints.MapGroup("v1/categories")
                 .WithTags("Categories")
                 //.RequireAuthorization()
-                .MapEndpoint<CreateCategoryEndpoint>();
+                .MapEndpoint<CreateCategoryEndpoint>()
+                .MapEndpoint<UpdateCategoryEndpoint>()
+                .MapEndpoint<DeleteCategoryEndpoint>()
+                .MapEndpoint<GetCategoryByIdEndpoint>()
+                .MapEndpoint<GetAllCategoriesEndpoint>();
         }
 
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app)

@@ -96,7 +96,7 @@ namespace Dima.Api.Handlers
                 context.Categories.Update(category);
                 await context.SaveChangesAsync();
 
-                return new Response<Category?>(category);
+                return new Response<Category?>(category, 200, "Categoria atualizada com sucesso");
             }
             catch
             {

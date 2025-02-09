@@ -1,5 +1,5 @@
 using Dima.Api.Data;
-using Dima.Api.Endpoints.Categories;
+using Dima.Api.Endpoints;
 using Dima.Api.Handlers;
 using Dima.Core.Handlers;
 using Microsoft.EntityFrameworkCore;

@@ -11,11 +11,6 @@ var cnnStr = builder
     .Configuration
     .GetConnectionString("DefaultConnection") ?? string.Empty;
 
-builder.Services.AddDbContext<AppDbContext>(x =>
-{
-    x.UseSqlServer(cnnStr);
-});
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(x =>
 {
@@ -27,6 +22,11 @@ builder.Services.
     .AddIdentityCookies();
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddDbContext<AppDbContext>(x =>
+{
+    x.UseSqlServer(cnnStr);
+});
 
 builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
 builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();

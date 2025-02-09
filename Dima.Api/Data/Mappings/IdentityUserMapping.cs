@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Dima.Api.Data.Mappings
 {
-    public class IdentityUserMappig : IEntityTypeConfiguration<User>
+    public class IdentityUserMapping : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {

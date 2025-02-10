@@ -43,6 +43,9 @@ builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 

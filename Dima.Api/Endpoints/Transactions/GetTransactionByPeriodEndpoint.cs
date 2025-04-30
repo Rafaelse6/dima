@@ -28,7 +28,7 @@ namespace Dima.Api.Endpoints.Transactions
         {
             var request = new GetTransactionsByPeriodRequest
             {
-                UserId = "teste@balta.io",
+                UserId = user.Identity?.Name ?? string.Empty,
                 PageNumber = pageNumber,
                 PageSize = pageSize,
                 StartDate = startDate,

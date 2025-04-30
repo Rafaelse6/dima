@@ -3,6 +3,7 @@ using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Transactions;
 using Dima.Core.Responses;
+using System.Security.Claims;
 
 namespace Dima.Api.Endpoints.Transactions
 {
@@ -16,9 +17,13 @@ namespace Dima.Api.Endpoints.Transactions
            .WithOrder(2)
            .Produces<Response<Transaction?>>();
 
-        private static async Task<IResult> HandleAsync(ITransactionHandler handler, UpdateTransactionRequest request, long id)
+        private static async Task<IResult> HandleAsync(
+            ClaimsPrincipal user, 
+            ITransactionHandler handler, 
+            UpdateTransactionRequest request, 
+            long id)
         {
-            request.UserId = "teste@balta.io";
+            request.UserId = user.Identity?.Name ?? string.Empty;
             request.Id = id;
 
             var result = await handler.UpdateAsync(request);

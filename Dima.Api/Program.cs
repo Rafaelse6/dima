@@ -1,17 +1,16 @@
+using Dima.Api.Common.Api;
 using Dima.Api.Data;
 using Dima.Api.Endpoints;
 using Dima.Api.Handlers;
 using Dima.Api.Models;
+using Dima.Core;
 using Dima.Core.Handlers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
-
-var cnnStr = builder
-    .Configuration
-    .GetConnectionString("DefaultConnection") ?? string.Empty;
+builder.AddConfiguration();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(x =>
@@ -27,7 +26,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<AppDbContext>(x =>
 {
-    x.UseSqlServer(cnnStr);
+    x.UseSqlServer(Configuration.ConnectionString);
 });
 
 builder.Services

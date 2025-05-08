@@ -10,6 +10,11 @@ namespace Dima.Api.Endpoints
         {
             var endpoints = app.MapGroup("");
 
+            endpoints.MapGroup("/")
+                .WithTags("Health Check")
+                .MapGet("/", () => new { message = "Ok" });
+
+
             endpoints.MapGroup("v1/categories")
                 .WithTags("Categories")
                 .RequireAuthorization()

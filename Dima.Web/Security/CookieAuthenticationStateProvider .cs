@@ -21,10 +21,23 @@ namespace Dima.Web.Security
         public void NotifyAuthenticationStateChanged() => NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
 
 
-        public override Task<AuthenticationState> GetAuthenticationStateAsync()
+        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
 
-            throw new NotImplementedException();
+            _isAuthenticated = false;
+            var user = new ClaimsPrincipal(new ClaimsIdentity());
+
+            var userInfo = await GetUser();
+            if (userInfo is null)
+               return new AuthenticationState(user);
+
+            var claims = await GetClaims(userInfo); 
+
+            var id = new ClaimsIdentity(claims, nameof(CookieAuthenticationStateProvider));
+            user = new ClaimsPrincipal(id);
+
+            _isAuthenticated = true;
+            return new AuthenticationState(user);
         }
 
         private async Task<User?> GetUser()

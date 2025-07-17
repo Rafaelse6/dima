@@ -14,6 +14,8 @@ Configuration.BackendUrl = builder.Configuration.GetValue<string>("BackendUrl") 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
+builder.Services.AddScoped<CookieAuthenticationStateProvider>();
+
 builder.Services.AddScoped<CookieHandler>();
 
 builder.Services.AddAuthorizationCore();

@@ -106,31 +106,36 @@ namespace Dima.Api.Handlers
             }
             catch
             {
-                return new PagedResponse<List<Transaction>?>(null, 500, "Não foi possível determinar a data de inicio ou término.");
+                // Fix: Return correct type PagedResponse<List<Transaction?>> with null data
+                return new PagedResponse<List<Transaction?>>(null, 500, "Não foi possível determinar a data de inicio ou término.");
             }
 
             try
             {
                 var query = context
-                .Transactions
-                .AsNoTracking()
-                .Where(x => x.CreatedAt >= request.StartDate
-                && x.CreatedAt <= request.EndDate
-                && x.UserId == request.UserId)
-                .OrderBy(x => x.CreatedAt);
+                    .Transactions
+                    .AsNoTracking()
+                    .Where(x => x.CreatedAt >= request.StartDate
+                        && x.CreatedAt <= request.EndDate
+                        && x.UserId == request.UserId)
+                    .OrderBy(x => x.CreatedAt);
 
                 var transactions = await query
                     .Skip((request.PageNumber - 1) * request.PageSize)
                     .Take(request.PageSize)
                     .ToListAsync();
 
+                // Fix: Cast transactions to List<Transaction?> to match the expected type
+                var transactionsNullable = transactions.Cast<Transaction?>().ToList();
+
                 var count = await query.CountAsync();
 
-                return new PagedResponse<List<Transaction>?>(transactions, count, request.PageNumber, request.PageSize);
+                return new PagedResponse<List<Transaction?>>(transactionsNullable, count, request.PageNumber, request.PageSize);
             }
             catch
             {
-                return new PagedResponse<List<Transaction>?>(null, 500, "Não foi possível buscar as transações");
+                // Fix: Return correct type PagedResponse<List<Transaction?>> with null data
+                return new PagedResponse<List<Transaction?>>(null, 500, "Não foi possível buscar as transações");
             }
         }
 

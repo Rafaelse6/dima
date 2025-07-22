@@ -7,26 +7,23 @@
     <Authorized>
         <MudLayout>
             <MudAppBar>
-                <MudIconButton 
-                    Icon="@Icons.Material.Filled.Menu"
-                    Color="Color.Inherit"
-                    Edge="Edge.Start"
-                    OnClick="ToggleDrawer"/>
+                <MudIconButton Icon="@Icons.Material.Filled.Menu"
+                               Color="Color.Inherit"
+                               Edge="Edge.Start"
+                               OnClick="ToggleDrawer" />
                 Dima
                 <MudSpacer />
                 <MudText Typo="Typo.caption">
                     @context.User.Identity?.Name
                 </MudText>
-                <MudSwitch 
-                    Color="Color.Inherit"
-                    @bind-Value="@_isDarkMode" 
-                    T="bool"
-                    Class="ma-4"
-                    ThumbIcon="@Icons.TwoTone.Lightbulb"
-                    />
+                <MudSwitch Color="Color.Inherit"
+                           @bind-Value="@_isDarkMode"
+                           T="bool"
+                           Class="ma-4"
+                           ThumbIcon="@Icons.TwoTone.Lightbulb" />
             </MudAppBar>
             <MudDrawer @bind-Open="@_isDrawerOpened">
-                <h3>Nav Menu</h3>
+                <NavMenu />
             </MudDrawer>
             <MudMainContent>
                 <MudContainer>
@@ -37,7 +34,7 @@
 
     </Authorized>
     <NotAuthorized>
-        <LoginRedirect/>
+        <LoginRedirect />
     </NotAuthorized>
 </AuthorizeView>
 

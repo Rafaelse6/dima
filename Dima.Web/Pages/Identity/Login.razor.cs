@@ -37,7 +37,12 @@ namespace Dima.Web.Pages.Identity
             var user = authState.User;
 
             if (user.Identity is { IsAuthenticated: true })
+            {
+                await AuthenticationStateProvider.CheckAuthenticatedAsync();
+                AuthenticationStateProvider.NotifyAuthenticationStateChanged();
                 NavigationManager.NavigateTo("/");
+            }
+                
 
         }
         #endregion

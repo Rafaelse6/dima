@@ -21,7 +21,7 @@ builder.Services.AddScoped<CookieHandler>();
 builder.Services.AddAuthorizationCore();
 
 builder.Services.AddScoped<AuthenticationStateProvider, CookieAuthenticationStateProvider>();
-builder.Services.AddScoped(x => (ICookieAuthenticationStateProvider) x.GetRequiredService<AuthenticationStateProvider>());
+builder.Services.AddScoped(x => (ICookieAuthenticationStateProvider)x.GetRequiredService<AuthenticationStateProvider>());
 
 builder.Services.AddMudServices();
 
@@ -31,5 +31,8 @@ builder.Services.AddHttpClient(Configuration.HttpClientName, opt =>
 }).AddHttpMessageHandler<CookieHandler>();
 
 builder.Services.AddTransient<IAccountHandler, AccountHandler>();
+builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
+builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+
 
 await builder.Build().RunAsync();

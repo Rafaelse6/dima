@@ -2,6 +2,7 @@
 using Dima.Core.Models;
 using Dima.Core.Requests.Categories;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.FileProviders;
 using MudBlazor;
 
 namespace Dima.Web.Pages.Categories
@@ -13,6 +14,7 @@ namespace Dima.Web.Pages.Categories
 
         public bool IsBusy { get; set; } = false;
         public List<Category> Categories { get; set; } = [];
+        public string SearchTerm { get; set; } = string.Empty;
 
         #endregion
 
@@ -48,6 +50,25 @@ namespace Dima.Web.Pages.Categories
             }
         }
 
+        #endregion
+
+        #region
+        public Func<Category, bool> Filter => category =>
+        {
+            if (string.IsNullOrEmpty(SearchTerm))
+                return true;
+
+            if (category.Id.ToString().Contains(SearchTerm, StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            if (category.Title.ToString().Contains(SearchTerm, StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            if (category.Description is not null && category.Description.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            return false;
+        };
         #endregion
     }
 }

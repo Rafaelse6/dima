@@ -11,11 +11,24 @@
     </MudButton>
 </div>
 
-<MudDataGrid 
-    Class="pt-4"
-    Items="@Categories"> 
+<MudDataGrid Class="pt-4"
+             Items="@Categories"
+             Filterable="true"
+             QuickFilter="Filter"
+             Hideable="true">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Categorias</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="SearchTerm"
+                      Placeholder="Filtrar..."
+                      Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      Immediate="true"
+                      IconSize="Size.Medium"
+                      Class="mt-0"></MudTextField>
+    </ToolBarContent>
     <Columns>
-        <PropertyColumn Property="x => x.Id" Title="#"/>
-        <PropertyColumn Property="x => x.Title" Title="Categoria"/>
+        <PropertyColumn Property="x => x.Id" Title="#" />
+        <PropertyColumn Property="x => x.Title" Title="Categoria" />
     </Columns>
 </MudDataGrid>

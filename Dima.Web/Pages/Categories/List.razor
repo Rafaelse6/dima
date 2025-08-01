@@ -11,7 +11,7 @@
     </MudButton>
 </div>
 
-<MudDataGrid Class="pt-4"
+<MudDataGrid Class="mt-4"
              Items="@Categories"
              Filterable="true"
              QuickFilter="Filter"
@@ -30,5 +30,17 @@
     <Columns>
         <PropertyColumn Property="x => x.Id" Title="#" />
         <PropertyColumn Property="x => x.Title" Title="Categoria" />
+        <TemplateColumn Class="d-flex justify-end">
+            <CellTemplate>
+                <MudStack Row>
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                   Href="@($"/categorias/editar/{context.Item.Id}")"
+                                   Color="Color.Primary" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                   Color="Color.Error"
+                                   OnClick="()=>{}" />
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
     </Columns>
 </MudDataGrid>

@@ -24,6 +24,9 @@ namespace Dima.Web.Pages.Categories
         public ISnackbar Snackbar { get; set; } = null!;
 
         [Inject]
+        public IDialogService DialogService { get; set; } = null!;
+
+        [Inject]
         public ICategoryHandler Handler { get; set; } = null!;
 
         #endregion
@@ -52,7 +55,27 @@ namespace Dima.Web.Pages.Categories
 
         #endregion
 
-        #region
+        #region Methods
+
+        public async void OnDeleteButtonClickedAsync(long id, string title)
+        {
+            var result = await DialogService.ShowMessageBox(
+                "ATENÇÃO",
+                $"Ao prosseguir a categoria '{title}' será excluída. Está é uma ação irreversível. Deseja continuar?",
+                yesText: "Exluir",
+                cancelText: "Cancelar");
+
+            if (result is true)
+                await OnDeleteAsync(id);
+
+            StateHasChanged();
+
+        }
+
+        public async Task OnDeleteAsync(long id)
+        {
+
+        }
         public Func<Category, bool> Filter => category =>
         {
             if (string.IsNullOrEmpty(SearchTerm))

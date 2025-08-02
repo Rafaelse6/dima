@@ -38,7 +38,7 @@
                                    Color="Color.Primary" />
                     <MudIconButton Icon="@Icons.Material.Filled.Delete"
                                    Color="Color.Error"
-                                   OnClick="()=>{}" />
+                                   OnClick="()=> OnDeleteButtonClickedAsync(context.Item.Id, context.Item.Title)" />
                 </MudStack>
             </CellTemplate>
         </TemplateColumn>

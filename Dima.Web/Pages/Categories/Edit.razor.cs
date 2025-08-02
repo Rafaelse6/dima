@@ -1,6 +1,7 @@
 ﻿using Dima.Core.Handlers;
 using Dima.Core.Requests.Categories;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace Dima.Web.Pages.Categories
 {
@@ -23,6 +24,9 @@ namespace Dima.Web.Pages.Categories
         public NavigationManager NavigationManager { get; set; } = null!;
 
         [Inject]
+        public ISnackbar Snackbar { get; set; } = null!;
+
+        [Inject]
         public ICategoryHandler Handler { get; set; } = null!;
 
         #endregion
@@ -31,19 +35,70 @@ namespace Dima.Web.Pages.Categories
 
         protected override async Task OnInitializedAsync()
         {
-            var request = new GetCategoryByIdRequest
-            {
-                Id = long.Parse(Id)
-            };
+            GetCategoryByIdRequest? request = null;
 
-            var response = await Handler.GetByIdAsync(request);
-            if (response.IsSuccess && response.Data is not null)
-                InputModel = new UpdateCategoryRequest
+            try
+            {
+                request = new GetCategoryByIdRequest
                 {
-                    Id = response.Data.Id,
-                    Title = response.Data.Title,
-                    Description = response.Data.Description
+                    Id = long.Parse(Id)
                 };
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+
+            if (request is null)
+                return;
+
+            IsBusy = true;
+
+            try
+            {
+                var response = await Handler.GetByIdAsync(request);
+                if (response.IsSuccess && response.Data is not null)
+                    InputModel = new UpdateCategoryRequest
+                    {
+                        Id = response.Data.Id,
+                        Title = response.Data.Title,
+                        Description = response.Data.Description
+                    };
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+            #endregion
+        }
+
+        #region Methods
+
+        public async Task OnValidSubmitAsync()
+        {
+            IsBusy = true;
+
+            try
+            {
+                var result = await Handler.UpdateAsync(InputModel);
+                if (result.IsSuccess)
+                {
+                    Snackbar.Add("Categoria atualizada com sucesso", Severity.Success);
+                    NavigationManager.NavigateTo("/categorias");
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
         #endregion
     }

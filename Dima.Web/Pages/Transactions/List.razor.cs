@@ -48,6 +48,19 @@ namespace Dima.Web.Pages.Transactions
 
         #region Public Methods
 
+        public async void OnDeleteButtonClickedAsync(long id, string title)
+        {
+            var result = await DialogService.ShowMessageBox(
+                "atenção",
+                $"Ao prosseguir o lançamento {title} será excluído. Esta ação é irreversível. Deseja continuar ?",
+                yesText: "Excluir",
+                cancelText: "Cancelar");
+
+            if (result is true)
+                await OnDeleteAsync(id, title);
+            StateHasChanged();
+        }
+
         public Func<Transaction, bool> Filter => transaction =>
         {
             if (string.IsNullOrEmpty(SearchTerm))
@@ -88,6 +101,33 @@ namespace Dima.Web.Pages.Transactions
             IsBusy = false;
         }
 
-        #endregion
+        private async Task OnDeleteAsync(long id, string title)
+        {
+
+            IsBusy = true;
+            try
+            {
+                var result = await Handler.DeleteAsync(new DeleteTransactionRequest { Id = id });
+                if (result.IsSuccess)
+                {
+                    Snackbar.Add($"Lançamento {title} excluído", Severity.Success);
+                    Transactions.RemoveAll(x => x.Id == id);
+                }
+                else
+                {
+                    Snackbar.Add(result.Message, Severity.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            #endregion
+        }
     }
 }

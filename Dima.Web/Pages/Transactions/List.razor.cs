@@ -42,12 +42,18 @@ namespace Dima.Web.Pages.Transactions
         #region Override 
 
         protected override async Task OnInitializedAsync()
-        => await GetTransactions();
+        => await GetTransactionsAsync();
 
         #endregion
 
         #region Public Methods
 
+
+        public async Task OnSearchAsync()
+        {
+            await GetTransactionsAsync();
+            StateHasChanged();
+        }
         public async void OnDeleteButtonClickedAsync(long id, string title)
         {
             var result = await DialogService.ShowMessageBox(
@@ -72,7 +78,7 @@ namespace Dima.Web.Pages.Transactions
         #endregion
         #region Private Methods
 
-        private async Task GetTransactions()
+        private async Task GetTransactionsAsync()
         {
             IsBusy = true;
 

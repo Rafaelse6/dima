@@ -1,6 +1,5 @@
 <h1> Dima  - Financial Control</h1>
 
-> Status: In progress
 ## Technologies used:
 <table>
   <tr>
@@ -12,5 +11,6 @@
     <td>SQL Server</td>
     <td>WebAssembly</td>
     <td>MudBlazor</td>
+    <td>Swashbuckle</td>
   </tr>
 </table>

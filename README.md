@@ -11,7 +11,6 @@
     <td>Docker</td>
     <td>SQL Server</td>
     <td>WebAssembly</td>
-    <td>RabbitMQ</td>
     <td>MudBlazor</td>
   </tr>
 </table>

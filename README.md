@@ -1,4 +1,4 @@
-<h1> Dima  </h1>
+<h1> Dima  - Financial Control</h1>
 
 > Status: In progress
 ## Technologies used:

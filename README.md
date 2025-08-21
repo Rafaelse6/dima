@@ -1,5 +1,5 @@
 <h1> Dima  - Financial Control</h1>
-### Financial control project
+ ### Financial control project
 
 ## Technologies used:
 <table>
@@ -13,5 +13,6 @@
     <td>WebAssembly</td>
     <td>MudBlazor</td>
     <td>Swashbuckle</td>
+    <td>Azure Data Studio</td>
   </tr>
 </table>

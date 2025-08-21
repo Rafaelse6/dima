@@ -13,6 +13,5 @@
     <td>WebAssembly</td>
     <td>MudBlazor</td>
     <td>Swashbuckle</td>
-    <td>Azure Data Studio</td>
   </tr>
 </table>

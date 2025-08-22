@@ -1,7 +1,9 @@
-<h1> Dima  - Financial Control</h1>
- ### Financial control project
+# Dima 
 
-## Technologies used:
+### Financial control
+
+### Tecnologias utilizadas
+
 <table>
   <tr>
     <td>C#</td>

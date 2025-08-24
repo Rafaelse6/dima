@@ -1,4 +1,6 @@
-# Dima - Financial Control
+# Dima 
+### Financial control application
+
 ### Tecnologias utilizadas
 
 <table>

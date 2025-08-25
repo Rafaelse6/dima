@@ -13,6 +13,5 @@
     <td>SQL Server</td>
     <td>WebAssembly</td>
     <td>MudBlazor</td>
-    <td>Swashbuckle</td>
   </tr>
 </table>

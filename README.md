@@ -11,7 +11,6 @@
     <td>Blazor</td>
     <td>Docker</td>
     <td>SQL Server</td>
-    <td>WebAssembly</td>
     <td>MudBlazor</td>
   </tr>
 </table>

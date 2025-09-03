@@ -11,6 +11,6 @@
     <td>Docker</td>
     <td>SQL Server</td>
     <td>MudBlazor</td>
-    <td>Swash</td>
+    <td>Swashbuckle</td>
   </tr>
 </table>

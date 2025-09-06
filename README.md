@@ -1,6 +1,6 @@
 # Dima 
 
-### - Financial Control Application
+### Financial Control Application
 ### Technologies used
 
 <table>

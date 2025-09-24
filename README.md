@@ -1,6 +1,6 @@
 ## Dima 
 
-### inancial control application
+##inancial control application
 ### Technologies used
 
 <table>

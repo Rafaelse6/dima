@@ -1,6 +1,6 @@
 ## Dima 
 
-##inancial control application
+##financial control application
 ### Technologies used
 
 <table>

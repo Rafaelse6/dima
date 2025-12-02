@@ -1,7 +1,8 @@
-<h1> Dima  </h1>
+### Dima 
 
-> Status: In progress
-## Technologies used:
+### financial control application
+### T echnologies used
+
 <table>
   <tr>
     <td>C#</td>
@@ -10,7 +11,6 @@
     <td>Blazor</td>
     <td>Docker</td>
     <td>SQL Server</td>
-    <td>WebAssembly</td>
     <td>MudBlazor</td>
   </tr>
 </table>

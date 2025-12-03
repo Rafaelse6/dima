@@ -14,10 +14,12 @@ namespace Dima.Api.Endpoints.Reports
 
         private static async Task<IResult> HandleAsync
             (ClaimsPrincipal user,
-            GetIncomesAndExpensesRequests request,
             IReportHandler handler)
         {
-            request.UserId = user.Identity?.Name ?? string.Empty;
+            var request = new GetIncomesAndExpensesRequests
+            {
+                UserId = user.Identity?.Name ?? string.Empty
+            };
             var result = await handler.GetIncomesAndExpensesReportAsync(request);
             return result.IsSuccess ?
                 TypedResults.Ok(result) :

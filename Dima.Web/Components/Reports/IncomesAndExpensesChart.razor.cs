@@ -33,8 +33,8 @@ namespace Dima.Web.Components.Reports
         {
             var request = new GetIncomesAndExpensesRequests();
             var result = await Handler.GetIncomesAndExpensesReportAsync(request);
-            if(!result.IsSuccess || result.Data is null)
-            { 
+            if (!result.IsSuccess || result.Data is null)
+            {
                 Snackbar.Add("Não foi possível obter os dados do relatórios", Severity.Error);
                 return;
             }
@@ -45,19 +45,19 @@ namespace Dima.Web.Components.Reports
             foreach (var item in result.Data)
             {
 
-                incomes.Add((double) item.Incomes);
-                expenses.Add(-(double)item.Expenses);
+                incomes.Add((double)item.Incomes);
+                expenses.Add((double)Math.Abs(item.Expenses));
                 Labels.Add(GetMonthName(item.Month));
             }
 
             Options.YAxisTicks = 1000;
             Options.LineStrokeWidth = 5;
             Options.ChartPalette = ["#76FF01", Colors.Red.Default];
-            Series = [
-                new ChartSeries{Name = "Receitas", Data = incomes.ToArray()},
-                new ChartSeries {Name = "Saídas", Data = expenses.ToArray()}
-    
-                ];
+            Series = new List<ChartSeries>()
+            {
+                new() { Name = "Receitas", Data = incomes.ToArray() },
+                new() { Name = "Despesas", Data = expenses.ToArray() }
+            };
 
             StateHasChanged();
         }

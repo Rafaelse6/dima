@@ -1,54 +1,56 @@
-﻿using Dima.Core.Handlers;
-using Dima.Core.Requests.Reports;
-using Microsoft.AspNetCore.Components;
-using MudBlazor;
+﻿//using System.Reflection.Metadata;
+//using Dima.Core.Handlers;
+//using Dima.Core.Requests.Reports;
+//using Microsoft.AspNetCore.Components;
+//using MudBlazor;
 
-namespace Dima.Web.Components.Reports
-{
-    public partial class ExpensesByCategoryChartComponent : ComponentBase
-    {
-        #region Properties
+//namespace Dima.Web.Components.Reports;
 
-        public List<double> Data { get; set; } = [];
-        public List<string> Labels { get; set; } = [];
+//public partial class ExpensesByCategoryChartComponent : ComponentBase 
+//{
+//    #region Properties
 
-        #endregion
+//    public List<double> Data { get; set; } = [];
+//    public List<string> Labels { get; set; } = [];
 
-        #region Services
+//    #endregion
 
-        [Inject]
-        public IReportHandler Handler { get; set; } = null!;
+//    #region Services
 
-        [Inject]
-        public ISnackbar Snackbar { get; set; } = null!;
+//    [Inject]
+//    public IReportHandler Handler { get; set; } = null!;
 
-        #endregion
+//    [Inject]
+//    public ISnackbar Snackbar { get; set; } = null!;
 
-        #region Overrides
+//    #endregion
 
-        protected override async Task OnInitializedAsync()
-        {
-            await GetExpensesByCategoryAsync();
-        }
+//    #region Overrides
 
-        private async Task GetExpensesByCategoryAsync()
-        {
-            var request = new GetExpensesByCategoryRequest();
-            var result = await Handler.GetExpensesByCategoryReportAsync(request);
+//    protected override async Task OnInitializedAsync()
+//    {
+//        await GetExpensesByCategoryAsync();
+//    }
 
-            if (!result.IsSuccess && result.Data is null)
-            {
-                Snackbar.Add("Falha ao obter dados do relatório", Severity.Error);
-                return;
-            }
+//    private async Task GetExpensesByCategoryAsync()
+//    {
+//        var request = new GetExpensesByCategoryRequest();
+//        var result = await Handler.GetExpensesByCategoryReportAsync(request);
+//        if (!result.IsSuccess || result.Data is null)
+//        {
+//            Snackbar.Add("Falha ao obter dados do relatório", Severity.Error);
+//            return;
+//        }
 
-            foreach (var item in result.Data)
-            {
-                Labels.Add($"{item.Category} ({item.Expenses:C})");
-                Data.Add(-(double)item.Expenses);
-            }
-        }
+//        foreach (var item in result.Data)
+//        {
+//            // Mantém o label com sinal correto, se quiser
+//            Labels.Add($"{item.Category} ({Math.Abs(item.Expenses):C})");
 
-        #endregion
-    }
-}
+//            // O gráfico de pizza precisa de valor positivo
+//            Data.Add((double)Math.Abs(item.Expenses));
+//        }
+//    }
+
+//    #endregion
+//}

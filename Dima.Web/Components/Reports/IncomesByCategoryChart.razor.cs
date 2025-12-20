@@ -37,7 +37,7 @@ namespace Dima.Web.Components.Reports
             var request = new GetIncomesByCategoryRequest();
             var result = await Handler.GetIncomesByCategoryReportAsync(request);
 
-            if (!result.IsSuccess && result.Data is null)
+            if (!result.IsSuccess || result.Data is null)
             {
                 Snackbar.Add("Falha ao obter dados do relatório", Severity.Error);
                 return;
@@ -46,7 +46,7 @@ namespace Dima.Web.Components.Reports
             foreach (var item in result.Data)
             {
                 Labels.Add($"{item.Category} ({item.Incomes:C})");
-                Data.Add(-(double)item.Incomes);
+                Data.Add((double)item.Incomes);
             }
         }
 

@@ -24,7 +24,7 @@ namespace Dima.Web.Handlers
 
         public async Task<Response<List<ExpensesByCategory>?>> GetExpensesByCategoryReportAsync(GetExpensesByCategoryRequest request)
         {
-            return await _client.GetFromJsonAsync<Response<List<ExpensesByCategory>?>>($"v1/reports/expeses")
+            return await _client.GetFromJsonAsync<Response<List<ExpensesByCategory>?>>($"v1/reports/expenses")
                ?? new Response<List<ExpensesByCategory>?>(null, 400, "Não foi possível obter os dados");
         }
 

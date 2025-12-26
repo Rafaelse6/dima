@@ -8,5 +8,6 @@ namespace Dima.Core.Handlers
     {
         Task<PagedResponse<List<Product>?>> GetAllAsync(GetAllProductsRequest request);
         Task<Response<Product?>> GetBySlugAsync(GetProductBySlugRequest request);
+
     }
 }

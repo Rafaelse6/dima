@@ -129,6 +129,57 @@ namespace Dima.Api.Handlers
 
         }
 
+        public async Task<Response<Order?>> PayAsync(PayOrderRequest request)
+        {
+            Order? order;
+
+            try
+            {
+                order = await context.Orders.FirstOrDefaultAsync(x => x.Id == request.Id && x.UserId
+                == request.UserId);
+
+                if (order is null)
+                    return new Response<Order?>(null, 404, "Pedido não encontrado");
+            }
+            catch
+            {
+                return new Response<Order?>(null, 500, "Falha ao consultar pedido");
+            }
+
+            switch (order.Status)
+            {
+                case EOrderStatus.Canceled:
+                    return new Response<Order?>(order, 400, "Este pedido já foi cancelado e não pode ser pago");
+
+                case EOrderStatus.Paid:
+                    return new Response<Order?>(order, 400, "Este pedido já está pago");
+
+                case EOrderStatus.Refunded:
+                    return new Response<Order?>(order, 400, "Este pedido já foi reembolsado e não pode ser pago");
+
+                case EOrderStatus.WaitingPayment:
+                    break;
+
+                default:
+                    return new Response<Order?>(order, 400, "Não foi possível pagar o pedido");
+            }
+
+            order.Status = EOrderStatus.Paid;
+            order.ExternalReference = request.ExternalReference;
+            order.UpdateAt = DateTime.Now;
+
+            try
+            {
+                context.Orders.Update(order);
+                await context.SaveChangesAsync();
+            }
+            catch
+            {
+                return new Response<Order?>(order, 500m, "Falha ao tentar pagar o pedido");
+            }
+
+            return new Response<Order?>(order, 200, $"Pedido {order.Number} pago com sucesso");
+        }
         public Task<PagedResponse<List<Order>?>> GetAllAsync(GetAllOrdersRequest request)
         {
             throw new NotImplementedException();
@@ -139,11 +190,7 @@ namespace Dima.Api.Handlers
             throw new NotImplementedException();
         }
 
-        public Task<Response<Order?>> PayAsync(PayOrderRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
+  
         public Task<Response<Order?>> RefundAsync(RefundOrderRequest request)
         {
             throw new NotImplementedException();

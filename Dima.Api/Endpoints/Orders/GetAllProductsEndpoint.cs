@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dima.Api.Endpoints.Orders
 {
-    public class GetAllProducts : IEndpoint
+    public class GetAllProductsEndpoint : IEndpoint
     {
 
         public static void Map(IEndpointRouteBuilder app)
@@ -16,7 +16,7 @@ namespace Dima.Api.Endpoints.Orders
             .WithName("Products: Get All")
             .WithSummary("Recupera todos os produtos")
             .WithDescription("Recupera todos os produtos")
-            .WithOrder(4)
+            .WithOrder(1)
             .Produces<PagedResponse<List<Product>?>>();
 
 

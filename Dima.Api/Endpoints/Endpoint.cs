@@ -50,7 +50,7 @@ namespace Dima.Api.Endpoints
                 .MapEndpoint<GetVoucherByNumberEndpoint>();
 
             endpoints.MapGroup("v1/orders")
-                .WithName("Orders")
+                .WithTags("Orders")
                 .RequireAuthorization()
                 .MapEndpoint<GetAllOrdersEndpoint>()
                 .MapEndpoint<GetOrderByNumberEndpoint>()

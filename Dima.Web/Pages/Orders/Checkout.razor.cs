@@ -21,6 +21,14 @@ namespace Dima.Web.Pages.Orders
 
         #region Properties
 
+        public PatternMask Mask = new("####-####")
+        {
+            MaskChars = [new MaskChar('#', @"[0-9a-fA-F]")],
+            Placeholder = '_',
+            CleanDelimiters = true,
+            Transformation = AllUpperCase
+        };
+
         public bool IsBusy { get; set; }
         public bool IsValid { get; set; }
         public CreateOrderRequest InputModel { get; set; } = new();
@@ -118,6 +126,13 @@ namespace Dima.Web.Pages.Orders
             IsValid = true;
             Total = Product.Price - (Voucher?.Amount ?? 0);
         }
+
+        private static char AllUpperCase(char c) => c.ToString().ToUpperInvariant()[0];
         #endregion
     }
+
 }
+
+
+
+

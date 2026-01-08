@@ -127,6 +127,34 @@ namespace Dima.Web.Pages.Orders
             Total = Product.Price - (Voucher?.Amount ?? 0);
         }
 
+        public async Task OnValidSubmitAsync()
+        {
+            IsBusy = true;
+            try
+            {
+                var request = new CreateOrderRequest
+                {
+                    ProductId = Product!.Id,
+                    VoucherId = Voucher?.Id ?? null,
+                };
+
+                var result = await OrderHandler.CreateAsync(request);
+
+                if (result.IsSuccess)
+                    NavigationManager.NavigateTo($"/pedidos/{result.Data!.Number}");
+                else
+                    Snackbar.Add(result.Message, Severity.Error);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add(ex.Message, Severity.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
         private static char AllUpperCase(char c) => c.ToString().ToUpperInvariant()[0];
         #endregion
     }

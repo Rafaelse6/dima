@@ -28,11 +28,13 @@
     <p>@Order.Total.ToString("C")</p>
     <br />
     <h4>Situação</h4>
-    <OrderStatus Status="Order.Status"/>
+    <OrderStatus Status="Order.Status" />
     <br />
     <br />
 
-    <p>AÇÕES</p>
+    <CascadingValue Value="this">
+        <OrderAction Order="Order" />
+    </CascadingValue>
 }
 else
 {

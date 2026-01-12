@@ -49,5 +49,16 @@ namespace Dima.Web.Pages.Orders
         }
 
         #endregion
+
+        #region Methods
+
+        public void RefreshState(Order order)
+        {
+            Order = order;
+
+            StateHasChanged();
+        }
+
+        #endregion
     }
 }

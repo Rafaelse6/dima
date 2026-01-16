@@ -3,12 +3,13 @@ using Dima.Core.Enums;
 using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Orders;
+using Dima.Core.Requests.Stripe;
 using Dima.Core.Responses;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dima.Api.Handlers
 {
-    public class OrderHandler(AppDbContext context) : IOrderHandler
+    public class OrderHandler(AppDbContext context, IStripeHandler stripeHandler) : IOrderHandler
     {
         public async Task<Response<Order?>> CancelAsync(CancelOrderRequest request)
         {
@@ -166,6 +167,35 @@ namespace Dima.Api.Handlers
                     return new Response<Order?>(order, 400, "Não foi possível pagar o pedido");
             }
 
+            try
+            {
+                var getTransactionsRequest = new GetTransactionsByOrderNumberRequest
+                {
+                    Number = order.Number,
+                };
+
+                var result = await stripeHandler.GetTransactionsByOrderNumberAsync(getTransactionsRequest);
+
+                if (result.IsSuccess == false)
+                    return new Response<Order?>(null, 500, "Não foi possível localizar o pagamento");
+
+                if (result.Data is null)
+                    return new Response<Order?>(null, 400, "Não foi possivel localizar o pedido");
+
+                if (result.Data.Any(x => x.Refund))
+                    return new Response<Order?>(null, 400, "Este pedido já teve o pagamento informado");
+
+                if (result.Data.Any(x => x.Paid))
+                    return new Response<Order?>(null, 400, "Este pedido não foi pago");
+
+                request.ExternalReference = result.Data[0].Id;
+
+            }
+            catch
+            {
+                return new Response<Order?>(null, 500, "Não foi possível dar baixa no seu pedido");
+            }
+
             order.Status = EOrderStatus.Paid;
             order.ExternalReference = request.ExternalReference;
             order.UpdateAt = DateTime.Now;
@@ -266,7 +296,7 @@ namespace Dima.Api.Handlers
                 Number && x.UserId == request.UserId);
 
                 return order is null ? new Response<Order?>(null, 404, "Pedido não encontrado")
-                    :new Response<Order?>(order);
+                    : new Response<Order?>(order);
             }
             catch
             {

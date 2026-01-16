@@ -60,10 +60,10 @@ namespace Dima.Api.Endpoints
                 .MapEndpoint<PayOrderEndpoint>()
                 .MapEndpoint<RefundOrderEndpoint>();
 
-            endpoints.MapGroup("v1/payment/stripe")
-               .WithTags("Payments - Stripe")
-               .RequireAuthorization()
-               .MapEndpoint<CreateSessionEndpoint>();
+            endpoints.MapGroup("v1/payments/stripe")
+                .WithTags("Payments - Stripe")
+                .RequireAuthorization()
+                .MapEndpoint<CreateSessionEndpoint>();
 
             endpoints.MapGroup("v1/identity")
                 .WithTags("Identity")
